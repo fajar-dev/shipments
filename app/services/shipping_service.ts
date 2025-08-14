@@ -12,6 +12,6 @@ export class ShippingService {
     page: number,
     limit: number
   ): Promise<ModelPaginatorContract<Shipping>> {
-    return await Shipping.query().where('track_number', 'ILIKE', `%${query}%`).paginate(page, limit)
+    return await Shipping.query().whereILike('track_number', `%${query}%`).paginate(page, limit)
   }
 }
