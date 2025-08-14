@@ -31,7 +31,8 @@
     "#tests/*": "./tests/*.js",
     "#config/*": "./config/*.js",
     "#helpers/*": "./app/helpers/*.js",
-    "#enums/*": "./app/enums/*.js"
+    "#enums/*": "./app/enums/*.js",
+    "#serializers/*": "./app/serializers/*.js"
   },
   "devDependencies": {
     "@adonisjs/assembler": "^7.8.2",
