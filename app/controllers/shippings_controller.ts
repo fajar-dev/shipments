@@ -45,7 +45,7 @@ export default class ShippingsController {
     const logo = BrandLogos[brand] || ''
     const pdf = await PdfGenerate.pdfLabel(data, logo, barcodeBase64, view)
     response.header('Content-Type', 'application/pdf')
-    response.header('Content-Disposition', 'attachment; filename=label.pdf')
+    response.header('Content-Disposition', `attachment; filename="${data.trackNumber}.pdf"`)
     return response.send(pdf)
   }
 }
