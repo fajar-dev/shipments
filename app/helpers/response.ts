@@ -15,7 +15,7 @@ export default class ApiResponse {
    * @param data       – Payload to return
    * @param message    – Optional human-readable message
    */
-  public static sendSuccess(
+  static sendSuccess(
     response: HttpContext['response'],
     statusCode: number,
     data: unknown,
@@ -31,17 +31,17 @@ export default class ApiResponse {
   }
 
   /** Shorthand for **200 OK** */
-  public static ok(response: HttpContext['response'], data: unknown, message?: string) {
+  static ok(response: HttpContext['response'], data: unknown, message?: string) {
     return this.sendSuccess(response, 200, data, message)
   }
 
   /** Shorthand for **201 Created** */
-  public static created(response: HttpContext['response'], data: unknown, message?: string) {
+  static created(response: HttpContext['response'], data: unknown, message?: string) {
     return this.sendSuccess(response, 201, data, message)
   }
 
   /** Shorthand for **204 No Content** */
-  public static noContent(response: HttpContext['response']) {
+  static noContent(response: HttpContext['response']) {
     return this.sendSuccess(response, 204, null)
   }
 
@@ -54,7 +54,7 @@ export default class ApiResponse {
    * @param errors     – Extra error details (e.g. validation errors)
    * @param data       – Additional payload (optional)
    */
-  public static sendError(
+  static sendError(
     response: HttpContext['response'],
     statusCode: number,
     message: string,
@@ -97,7 +97,7 @@ export default class ApiResponse {
    * @param message  – Custom error message
    * @param errors   – Stack trace or additional error details
    */
-  public static internalServerError(
+  static internalServerError(
     response: HttpContext['response'],
     message: string = 'Internal Server Error',
     errors?: unknown
@@ -115,7 +115,7 @@ export default class ApiResponse {
    * @param response – HttpContext response object
    * @param message  – Custom message
    */
-  public static notFound(response: HttpContext['response'], message: string = 'Not Found') {
+  static notFound(response: HttpContext['response'], message: string = 'Not Found') {
     return this.sendError(response, 404, message)
   }
 
@@ -125,7 +125,7 @@ export default class ApiResponse {
    * @param response – HttpContext response object
    * @param message  – Custom message
    */
-  public static badRequest(response: HttpContext['response'], message: string = 'Bad Request') {
+  static badRequest(response: HttpContext['response'], message: string = 'Bad Request') {
     return this.sendError(response, 400, message)
   }
 
@@ -135,7 +135,7 @@ export default class ApiResponse {
    * @param response – HttpContext response object
    * @param message  – Custom message
    */
-  public static unauthorized(response: HttpContext['response'], message: string = 'Unauthorized') {
+  static unauthorized(response: HttpContext['response'], message: string = 'Unauthorized') {
     return this.sendError(response, 401, message)
   }
 
@@ -145,7 +145,7 @@ export default class ApiResponse {
    * @param response – HttpContext response object
    * @param message  – Custom message
    */
-  public static forbidden(response: HttpContext['response'], message: string = 'Forbidden') {
+  static forbidden(response: HttpContext['response'], message: string = 'Forbidden') {
     return this.sendError(response, 403, message)
   }
 
@@ -155,7 +155,7 @@ export default class ApiResponse {
    * @param response – HttpContext response object
    * @param message  – Custom message
    */
-  public static conflict(response: HttpContext['response'], message: string = 'Conflict') {
+  static conflict(response: HttpContext['response'], message: string = 'Conflict') {
     return this.sendError(response, 409, message)
   }
 
@@ -165,7 +165,7 @@ export default class ApiResponse {
    * @param response – HttpContext response object
    * @param errors   – Validation error details
    */
-  public static validationError(response: HttpContext['response'], errors: unknown) {
+  static validationError(response: HttpContext['response'], errors: unknown) {
     return this.sendError(response, 422, 'Validation Error', errors)
   }
 
@@ -175,7 +175,7 @@ export default class ApiResponse {
    * @param response – HttpContext response object
    * @param message  – Custom message
    */
-  public static methodNotAllowed(
+  static methodNotAllowed(
     response: HttpContext['response'],
     message: string = 'Method Not Allowed'
   ) {
@@ -188,7 +188,7 @@ export default class ApiResponse {
    * @param response – HttpContext response object
    * @param message  – Custom message
    */
-  public static gone(response: HttpContext['response'], message: string = 'Gone') {
+  static gone(response: HttpContext['response'], message: string = 'Gone') {
     return this.sendError(response, 410, message)
   }
 
@@ -198,7 +198,7 @@ export default class ApiResponse {
    * @param response – HttpContext response object
    * @param message  – Custom message
    */
-  public static preconditionFailed(
+  static preconditionFailed(
     response: HttpContext['response'],
     message: string = 'Precondition Failed'
   ) {
@@ -211,10 +211,7 @@ export default class ApiResponse {
    * @param response – HttpContext response object
    * @param message  – Custom message
    */
-  public static tooManyRequests(
-    response: HttpContext['response'],
-    message: string = 'Too Many Requests'
-  ) {
+  static tooManyRequests(response: HttpContext['response'], message: string = 'Too Many Requests') {
     return this.sendError(response, 429, message)
   }
 }

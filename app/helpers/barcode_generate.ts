@@ -7,7 +7,7 @@ export default class BarcodeGenerate {
    * @param options Additional bwip-js options
    * @returns string Base64 image
    */
-  public static async generateBase64(
+  static async generateBase64(
     text: string,
     options?: {
       bcid?: string
