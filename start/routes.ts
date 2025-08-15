@@ -14,5 +14,6 @@ router
   .group(() => {
     router.get('/', [ShippingsController, 'index'])
     router.post('/', [ShippingsController, 'store'])
+    router.get('/:id/label', [ShippingsController, 'label'])
   })
   .prefix('/shipments')

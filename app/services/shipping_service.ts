@@ -3,9 +3,11 @@ import { ModelPaginatorContract } from '@adonisjs/lucid/types/model'
 
 export class ShippingService {
   /**
-   * @param query string
-   * @param page number
-   * @param limit number
+   * Get paginated shipment records matching a query.
+   * @param query Search string for track number
+   * @param page Page number
+   * @param limit Items per page
+   * @returns Paginated Shipping records
    */
   async findAll(
     query: string,
@@ -16,14 +18,18 @@ export class ShippingService {
   }
 
   /**
-   * @param id string
+   * Get a shipment record by ID.
+   * @param id Shipment ID
+   * @returns Shipping record
    */
   async findOne(id: string): Promise<Shipping> {
     return await Shipping.findOrFail(id)
   }
 
   /**
-   * @param payload any
+   * Create a new shipment record.
+   * @param payload Shipment data
+   * @returns Newly created Shipping record
    */
   async store(payload: any): Promise<Shipping> {
     const label = new Shipping()

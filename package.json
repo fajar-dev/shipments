@@ -32,7 +32,8 @@
     "#config/*": "./config/*.js",
     "#helpers/*": "./app/helpers/*.js",
     "#enums/*": "./app/enums/*.js",
-    "#serializers/*": "./app/serializers/*.js"
+    "#serializers/*": "./app/serializers/*.js",
+    "#utils/*": "./app/utils/*.js"
   },
   "devDependencies": {
     "@adonisjs/assembler": "^7.8.2",
@@ -49,6 +50,7 @@
     "eslint": "^9.26.0",
     "hot-hook": "^0.4.0",
     "pino-pretty": "^13.0.0",
+    "playwright": "^1.54.2",
     "prettier": "^3.5.3",
     "ts-node-maintained": "^10.9.5",
     "typescript": "~5.8"
@@ -59,6 +61,8 @@
     "@adonisjs/cors": "^2.2.1",
     "@adonisjs/lucid": "^21.6.1",
     "@vinejs/vine": "^3.0.1",
+    "bwip-js": "^4.7.0",
+    "edge.js": "^6.3.0",
     "luxon": "^3.7.1",
     "mysql2": "^3.14.3",
     "reflect-metadata": "^0.2.2",

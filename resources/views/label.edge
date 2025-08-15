@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Label Pengiriman</title>
+  <style>
+    body {
+      background: white;
+      font-family: Roboto, sans-serif;
+    }
+    .container {
+      width: 1080px;
+      height: 1080px;
+      background: white;
+      padding: 24px;
+      box-sizing: border-box;
+    }
+    .card {
+      border-radius: 16px;
+      outline: 4px solid black;
+      outline-offset: -4px;
+      display: flex;
+      flex-direction: column;
+      height: 1032px;
+      width: 1032px;
+    }
+    /* Header */
+    .header {
+      padding: 32px;
+      border-bottom: 4px solid black;
+      text-align: center;
+      font-size: 32px;
+      font-weight: 500;
+    }
+    /* Grid Layout untuk semua box */
+    .grid {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+    }
+    .box-block {
+      padding: 24px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      box-sizing: border-box;
+    }
+    /* Border sesuai posisi */
+    .box-block:nth-child(1) {
+      border-right: 4px solid black;
+      border-bottom: 4px solid black;
+    }
+    .box-block:nth-child(2) {
+      border-bottom: 4px solid black;
+    }
+    .box-block:nth-child(3) {
+      border-right: 4px solid black;
+    }
+    /* Typography */
+    .address-title {
+      font-size: 24px;
+      font-weight: 700;
+    }
+    .primary-text {
+      font-size: 24px;
+      font-weight: 500;
+    }
+    .secondary-text {
+      font-size: 24px;
+      color: rgba(0, 0, 0, 0.6);
+    }
+    .address-details {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .info-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .info-label {
+      font-size: 20px;
+      font-weight: 700;
+    }
+    .info-value {
+      font-size: 24px;
+      color: rgba(0, 0, 0, 0.6);
+    }
+    .note-title {
+      font-size: 20px;
+      font-weight: 700;
+    }
+    .note-text {
+      font-size: 24px;
+      color: rgba(0, 0, 0, 0.6);
+      text-align: justify;
+      line-height: 133%;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <!-- Header -->
+      <div class="header">PT Media Antar Nusa</div>
+
+      <!-- Grid 4 kotak -->
+      <div class="grid">
+        <!-- Box 1: Kepada -->
+        <div class="box-block">
+          <div class="address-title">Kepada:</div>
+          <div class="address-details">
+            <div class="primary-text">{{ data.receiverFirstName }} {{ data.receiverLastName ?? '' }}</div>
+            <div class="secondary-text">{{ data.receiverAddress }}, {{ data.receiverCity }}</div>
+            <div class="secondary-text">{{ data.receiverProvince }}, {{ data.receiverCountry }}, {{ data.receiverPostalCode }}</div>
+            <div class="secondary-text">{{ data.receiverEmail ?? '' }}</div>
+            <div class="secondary-text">{{ data.receiverPhone }}</div>
+          </div>
+        </div>
+
+        <!-- Box 2: Dari -->
+        <div class="box-block">
+          <div class="address-title">Dari:</div>
+          <div class="address-details">
+            <div class="primary-text">{{ data.senderFirstName }} {{ data.senderLastName ?? '' }}</div>
+            <div class="secondary-text">{{ data.senderAddress }}, {{ data.senderCity }}</div>
+            <div class="secondary-text">{{ data.senderProvince }}, {{ data.senderCountry }}, {{ data.senderPostalCode }}</div>
+            <div class="secondary-text">{{ data.senderEmail ?? '' }}</div>
+            <div class="secondary-text">{{ data.senderPhone }}</div>
+          </div>
+        </div>
+
+        <!-- Box 3: Info Pengiriman -->
+        <div class="box-block">
+          <div class="info-item">
+            <div class="info-label">Berat</div>
+            <div class="info-value">{{ data.weight }} kg</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Tanggal Kirim</div>
+            <div class="info-value">{{ formatDateId(data.shippingDate) }}</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">No. Resi</div>
+            <div class="info-value">{{ data.trackNumber }}</div>
+          </div>
+          <img src="data:image/png;base64,{{ barcode }}" width="366px" alt="Barcode">
+        </div>
+
+        <!-- Box 4: Catatan -->
+        <div class="box-block">
+          <div class="note-title">Catatan Pengiriman</div>
+          <div class="note-text">
+            {{ data.shippingNote ?? '-' }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

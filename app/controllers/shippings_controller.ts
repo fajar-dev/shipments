@@ -4,6 +4,8 @@ import { inject } from '@adonisjs/core'
 import { ShippingService } from '#services/shipping_service'
 import ShippingSerialize from '#serializers/shipping_serializer'
 import { labelStore } from '#validators/shippping'
+import PdfGenerate from '#helpers/pdf_generate'
+import BarcodeGenerate from '#helpers/barcode_generate'
 
 @inject()
 export default class ShippingsController {
@@ -32,5 +34,14 @@ export default class ShippingsController {
       await this.shippingSerialize.single(data),
       'Shipments created successfully'
     )
+  }
+
+  public async label({ view, response, params }: HttpContext) {
+    const data = await this.shippingService.findOne(params.id)
+    const barcodeBase64 = await BarcodeGenerate.generateBase64(data.trackNumber)
+    const pdf = await PdfGenerate.pdfLabel(data, barcodeBase64, view)
+    response.header('Content-Type', 'application/pdf')
+    response.header('Content-Disposition', 'attachment; filename=label.pdf')
+    return response.send(pdf)
   }
 }
