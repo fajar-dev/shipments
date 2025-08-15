@@ -10,4 +10,9 @@
 const ShippingsController = () => import('#controllers/shippings_controller')
 import router from '@adonisjs/core/services/router'
 
-router.post('/shipments', [ShippingsController, 'index'])
+router
+  .group(() => {
+    router.get('/', [ShippingsController, 'index'])
+    router.post('/', [ShippingsController, 'store'])
+  })
+  .prefix('/shipments')

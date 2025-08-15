@@ -5,13 +5,12 @@ interface ShippingResponseInterface {
   id: string
   brand: string
   weight: number
-  shippingDate: string
+  shippingDate: Date
   trackNumber: string
   shippingNote: string | null
 
   sender: {
-    firstName: string
-    lastName: string | null
+    fullName: string
     phone: string
     email: string | null
     address: string
@@ -22,8 +21,7 @@ interface ShippingResponseInterface {
   }
 
   receiver: {
-    firstName: string
-    lastName: string | null
+    fullName: string
     phone: string
     email: string | null
     address: string
@@ -57,13 +55,12 @@ export default class ShippingSerialize {
       id: shipping.id,
       brand: shipping.brand,
       weight: shipping.weight,
-      shippingDate: shipping.shippingDate?.toISODate() ?? '',
+      shippingDate: shipping.shippingDate,
       trackNumber: shipping.trackNumber,
       shippingNote: shipping.shippingNote,
 
       sender: {
-        firstName: shipping.senderFirstName,
-        lastName: shipping.senderLastName,
+        fullName: [shipping.senderFirstName, shipping.senderLastName].filter(Boolean).join(' '),
         phone: shipping.senderPhone,
         email: shipping.senderEmail,
         address: shipping.senderAddress,
@@ -74,8 +71,7 @@ export default class ShippingSerialize {
       },
 
       receiver: {
-        firstName: shipping.receiverFirstName,
-        lastName: shipping.receiverLastName,
+        fullName: [shipping.receiverFirstName, shipping.receiverLastName].filter(Boolean).join(' '),
         phone: shipping.receiverPhone,
         email: shipping.receiverEmail,
         address: shipping.receiverAddress,

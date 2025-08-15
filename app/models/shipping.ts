@@ -18,8 +18,8 @@ export default class Shipping extends BaseModel {
   @column()
   declare weight: number
 
-  @column.date()
-  declare shippingDate: DateTime
+  @column()
+  declare shippingDate: Date
 
   @column()
   declare trackNumber: string
