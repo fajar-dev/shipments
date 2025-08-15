@@ -16,6 +16,13 @@ export class ShippingService {
   }
 
   /**
+   * @param id string
+   */
+  async findOne(id: string): Promise<Shipping> {
+    return await Shipping.findOrFail(id)
+  }
+
+  /**
    * @param payload any
    */
   async store(payload: any): Promise<Shipping> {
