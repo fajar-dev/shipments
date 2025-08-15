@@ -1,12 +1,12 @@
 import { DateTime } from 'luxon'
 import { BaseModel, beforeCreate, column } from '@adonisjs/lucid/orm'
-import { v4 as uuidv4 } from 'uuid'
+import { v7 as uuidv7 } from 'uuid'
 import { Brand } from '#enums/brand'
 
 export default class Shipping extends BaseModel {
   @beforeCreate()
   public static async createUUID(model: Shipping) {
-    model.id = uuidv4()
+    model.id = uuidv7()
   }
 
   @column({ isPrimary: true })
