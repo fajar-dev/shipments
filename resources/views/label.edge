@@ -29,9 +29,11 @@
     .header {
       padding: 32px;
       border-bottom: 4px solid black;
+    }
+    .header-title{
+      font-weight: 500;
       text-align: center;
       font-size: 32px;
-      font-weight: 500;
     }
     /* Grid Layout untuk semua box */
     .grid {
@@ -105,7 +107,15 @@
   <div class="container">
     <div class="card">
       <!-- Header -->
-      <div class="header">PT Media Antar Nusa</div>
+      <div class="header">
+        @if (logo)
+          <img src="{{ logo }}" height="48px" alt="">
+        @else
+          <div class="header-title">
+            PT Media Antar Nusa
+          </div>
+        @end
+      </div>
 
       <!-- Grid 4 kotak -->
       <div class="grid">

@@ -6,6 +6,8 @@ import ShippingSerialize from '#serializers/shipping_serializer'
 import { labelStore } from '#validators/shippping'
 import PdfGenerate from '#helpers/pdf_generate'
 import BarcodeGenerate from '#helpers/barcode_generate'
+import { Brand } from '#enums/brand'
+import { BrandLogos } from '#utils/brand_logo'
 
 @inject()
 export default class ShippingsController {
@@ -39,7 +41,9 @@ export default class ShippingsController {
   public async label({ view, response, params }: HttpContext) {
     const data = await this.shippingService.findOne(params.id)
     const barcodeBase64 = await BarcodeGenerate.generateBase64(data.trackNumber)
-    const pdf = await PdfGenerate.pdfLabel(data, barcodeBase64, view)
+    const brand = data.brand as Brand
+    const logo = BrandLogos[brand] || ''
+    const pdf = await PdfGenerate.pdfLabel(data, logo, barcodeBase64, view)
     response.header('Content-Type', 'application/pdf')
     response.header('Content-Disposition', 'attachment; filename=label.pdf')
     return response.send(pdf)
