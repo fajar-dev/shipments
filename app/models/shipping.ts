@@ -3,7 +3,6 @@ import { BaseModel, beforeCreate, belongsTo, column } from '@adonisjs/lucid/orm'
 import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 import { v7 as uuidv7 } from 'uuid'
 import { Brand } from '#enums/brand'
-import Country from '#models/country'
 import Province from '#models/province'
 
 export default class Shipping extends BaseModel {

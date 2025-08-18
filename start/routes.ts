@@ -8,6 +8,7 @@
 */
 
 const ShippingsController = () => import('#controllers/shippings_controller')
+const AdministrativeAreasController = () => import('#controllers/administrative_areas_controller')
 import router from '@adonisjs/core/services/router'
 
 router
@@ -17,3 +18,10 @@ router
     router.get('/:id/label', [ShippingsController, 'label'])
   })
   .prefix('/shipments')
+
+router
+  .group(() => {
+    router.get('/', [AdministrativeAreasController, 'country'])
+    router.get('/:id', [AdministrativeAreasController, 'province'])
+  })
+  .prefix('/administrative-area')

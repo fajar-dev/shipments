@@ -32,10 +32,10 @@ export default class ShippingsController {
 
   async store({ request, response }: HttpContext) {
     const payload = await request.validateUsing(labelStore)
-    const senderProvinceId = await this.administrativeAreaService.provincefindOne(
+    const senderProvinceId = await this.administrativeAreaService.findOneProvince(
       payload.senderProvinceUuid
     )
-    const receiverProvinceId = await this.administrativeAreaService.provincefindOne(
+    const receiverProvinceId = await this.administrativeAreaService.findOneProvince(
       payload.receiverProvinceUuid
     )
     const result = await this.shippingService.store(
