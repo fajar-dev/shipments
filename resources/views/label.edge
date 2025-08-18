@@ -125,7 +125,7 @@
           <div class="address-details">
             <div class="primary-text">{{ data.receiverFirstName }} {{ data.receiverLastName ?? '' }}</div>
             <div class="secondary-text">{{ data.receiverAddress }}, {{ data.receiverCity }}</div>
-            <div class="secondary-text">{{ data.receiverProvince }}, {{ data.receiverCountry }}, {{ data.receiverPostalCode }}</div>
+            <div class="secondary-text">{{ data.receiverProvinces.name ?? '' }}, {{ data.receiverProvinces.country.name ?? '' }}, {{ data.receiverPostalCode }}</div>
             <div class="secondary-text">{{ data.receiverEmail ?? '' }}</div>
             <div class="secondary-text">{{ data.receiverPhone }}</div>
           </div>
@@ -137,7 +137,7 @@
           <div class="address-details">
             <div class="primary-text">{{ data.senderFirstName }} {{ data.senderLastName ?? '' }}</div>
             <div class="secondary-text">{{ data.senderAddress }}, {{ data.senderCity }}</div>
-            <div class="secondary-text">{{ data.senderProvince }}, {{ data.senderCountry }}, {{ data.senderPostalCode }}</div>
+            <div class="secondary-text">{{ data.senderProvinces.name ?? '' }}, {{ data.senderProvinces.country.name ?? '' }}, {{ data.senderPostalCode }}</div>
             <div class="secondary-text">{{ data.senderEmail ?? '' }}</div>
             <div class="secondary-text">{{ data.senderPhone }}</div>
           </div>

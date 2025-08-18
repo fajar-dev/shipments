@@ -8,11 +8,13 @@ import PdfGenerate from '#helpers/pdf_generate'
 import BarcodeGenerate from '#helpers/barcode_generate'
 import { Brand } from '#enums/brand'
 import { BrandLogos } from '#utils/brand_logo'
+import { AdministativeAreaService } from '#services/administative_area_service'
 
 @inject()
 export default class ShippingsController {
   constructor(
     private shippingService: ShippingService,
+    private administrativeAreaService: AdministativeAreaService,
     private shippingSerialize: ShippingSerialize
   ) {}
 
@@ -30,7 +32,18 @@ export default class ShippingsController {
 
   async store({ request, response }: HttpContext) {
     const payload = await request.validateUsing(labelStore)
-    const data = await this.shippingService.store(payload)
+    const senderProvinceId = await this.administrativeAreaService.provincefindOne(
+      payload.senderProvinceUuid
+    )
+    const receiverProvinceId = await this.administrativeAreaService.provincefindOne(
+      payload.receiverProvinceUuid
+    )
+    const result = await this.shippingService.store(
+      payload,
+      senderProvinceId.id,
+      receiverProvinceId.id
+    )
+    const data = await this.shippingService.findOne(result.uuid)
     return Response.created(
       response,
       await this.shippingSerialize.single(data),

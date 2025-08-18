@@ -1,16 +1,22 @@
 import { DateTime } from 'luxon'
-import { BaseModel, beforeCreate, column } from '@adonisjs/lucid/orm'
+import { BaseModel, beforeCreate, belongsTo, column } from '@adonisjs/lucid/orm'
+import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 import { v7 as uuidv7 } from 'uuid'
 import { Brand } from '#enums/brand'
+import Country from '#models/country'
+import Province from '#models/province'
 
 export default class Shipping extends BaseModel {
   @beforeCreate()
   public static async createUUID(model: Shipping) {
-    model.id = uuidv7()
+    model.uuid = uuidv7()
   }
 
   @column({ isPrimary: true })
-  declare id: string
+  declare id: number
+
+  @column()
+  declare uuid: string
 
   @column()
   declare brand: Brand
@@ -47,10 +53,7 @@ export default class Shipping extends BaseModel {
   declare senderCity: string
 
   @column()
-  declare senderProvince: string
-
-  @column()
-  declare senderCountry: string
+  declare senderProvinceId: number | null
 
   @column()
   declare senderPostalCode: string
@@ -75,10 +78,7 @@ export default class Shipping extends BaseModel {
   declare receiverCity: string
 
   @column()
-  declare receiverProvince: string
-
-  @column()
-  declare receiverCountry: string
+  declare receiverProvinceId: number | null
 
   @column()
   declare receiverPostalCode: string
@@ -88,4 +88,14 @@ export default class Shipping extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
+
+  @belongsTo(() => Province, {
+    foreignKey: 'senderProvinceId',
+  })
+  declare senderProvinces: BelongsTo<typeof Province>
+
+  @belongsTo(() => Province, {
+    foreignKey: 'receiverProvinceId',
+  })
+  declare receiverProvinces: BelongsTo<typeof Province>
 }

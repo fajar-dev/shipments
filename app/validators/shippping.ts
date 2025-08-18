@@ -1,5 +1,6 @@
 import { Brand } from '#enums/brand'
 import vine from '@vinejs/vine'
+import { provinceBelongsToCountryRule } from '#validatorsRules/province_belongsto_country'
 
 export const labelStore = vine.compile(
   vine.object({
@@ -15,8 +16,19 @@ export const labelStore = vine.compile(
     senderEmail: vine.string().nullable().optional(),
     senderAddress: vine.string(),
     senderCity: vine.string(),
-    senderProvince: vine.string(),
-    senderCountry: vine.string(),
+    senderCountryUuid: vine.string().exists({
+      table: 'countries',
+      column: 'uuid',
+    }),
+    senderProvinceUuid: vine
+      .string()
+      .exists({ table: 'provinces', column: 'uuid' })
+      .use(
+        provinceBelongsToCountryRule({
+          provinceUuid: 'senderProvinceUuid',
+          countryUuidField: 'senderCountryUuid',
+        })
+      ),
     senderPostalCode: vine.string(),
 
     receiverFirstName: vine.string(),
@@ -25,8 +37,19 @@ export const labelStore = vine.compile(
     receiverEmail: vine.string().nullable().optional(),
     receiverAddress: vine.string(),
     receiverCity: vine.string(),
-    receiverProvince: vine.string(),
-    receiverCountry: vine.string(),
+    receiverCountryUuid: vine.string().exists({
+      table: 'countries',
+      column: 'uuid',
+    }),
+    receiverProvinceUuid: vine
+      .string()
+      .exists({ table: 'provinces', column: 'uuid' })
+      .use(
+        provinceBelongsToCountryRule({
+          provinceUuid: 'receiverProvinceUuid',
+          countryUuidField: 'receiverCountryUuid',
+        })
+      ),
     receiverPostalCode: vine.string(),
   })
 )

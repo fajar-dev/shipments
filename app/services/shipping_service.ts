@@ -14,24 +14,42 @@ export class ShippingService {
     page: number,
     limit: number
   ): Promise<ModelPaginatorContract<Shipping>> {
-    return await Shipping.query().whereILike('track_number', `%${query}%`).paginate(page, limit)
+    return await Shipping.query()
+      .whereILike('track_number', `%${query}%`)
+      .preload('senderProvinces', (q) => {
+        q.preload('country')
+      })
+      .preload('receiverProvinces', (q) => {
+        q.preload('country')
+      })
+      .paginate(page, limit)
   }
 
   /**
    * Get a shipment record by ID.
-   * @param id Shipment ID
+   * @param uuid Shipment UUID
    * @returns Shipping record
    */
-  async findOne(id: string): Promise<Shipping> {
-    return await Shipping.findOrFail(id)
+  async findOne(uuid: string): Promise<Shipping> {
+    return await Shipping.query()
+      .where('uuid', uuid)
+      .preload('senderProvinces', (q) => q.preload('country'))
+      .preload('receiverProvinces', (q) => q.preload('country'))
+      .firstOrFail()
   }
 
   /**
    * Create a new shipment record.
    * @param payload Shipment data
-   * @returns Newly created Shipping record
+   * @param senderProvinceId Sender's province ID
+   * @param receiverProvinceId Receiver's province ID
+   * @returns Newly created Shipping instance
    */
-  async store(payload: any): Promise<Shipping> {
+  async store(
+    payload: any,
+    senderProvinceId: number,
+    receiverProvinceId: number
+  ): Promise<Shipping> {
     const label = new Shipping()
     label.brand = payload.brand
     label.weight = payload.weight
@@ -45,8 +63,7 @@ export class ShippingService {
     label.senderEmail = payload.senderEmail
     label.senderAddress = payload.senderAddress
     label.senderCity = payload.senderCity
-    label.senderProvince = payload.senderProvince
-    label.senderCountry = payload.senderCountry
+    label.senderProvinceId = senderProvinceId
     label.senderPostalCode = payload.senderPostalCode
     label.receiverFirstName = payload.receiverFirstName
     label.receiverLastName = payload.receiverLastName
@@ -54,8 +71,7 @@ export class ShippingService {
     label.receiverEmail = payload.receiverEmail
     label.receiverAddress = payload.receiverAddress
     label.receiverCity = payload.receiverCity
-    label.receiverProvince = payload.receiverProvince
-    label.receiverCountry = payload.receiverCountry
+    label.receiverProvinceId = receiverProvinceId
     label.receiverPostalCode = payload.receiverPostalCode
     await label.save()
     return label

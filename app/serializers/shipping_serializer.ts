@@ -15,8 +15,8 @@ interface ShippingResponseInterface {
     email: string | null
     address: string
     city: string
-    province: string
-    country: string
+    province: any
+    country: any
     postalCode: string
   }
 
@@ -26,8 +26,8 @@ interface ShippingResponseInterface {
     email: string | null
     address: string
     city: string
-    province: string
-    country: string
+    province: any
+    country: any
     postalCode: string
   }
 }
@@ -52,7 +52,7 @@ interface PaginatedResponse {
 export default class ShippingSerialize {
   async single(shipping: Shipping): Promise<ShippingResponseInterface> {
     return {
-      id: shipping.id,
+      id: shipping.uuid,
       brand: shipping.brand,
       weight: shipping.weight,
       shippingDate: shipping.shippingDate,
@@ -65,8 +65,14 @@ export default class ShippingSerialize {
         email: shipping.senderEmail,
         address: shipping.senderAddress,
         city: shipping.senderCity,
-        province: shipping.senderProvince,
-        country: shipping.senderCountry,
+        country: {
+          id: shipping.senderProvinces.country.uuid,
+          name: shipping.senderProvinces.country.name,
+        },
+        province: {
+          id: shipping.senderProvinces.uuid,
+          name: shipping.senderProvinces.name,
+        },
         postalCode: shipping.senderPostalCode,
       },
 
@@ -76,8 +82,14 @@ export default class ShippingSerialize {
         email: shipping.receiverEmail,
         address: shipping.receiverAddress,
         city: shipping.receiverCity,
-        province: shipping.receiverProvince,
-        country: shipping.receiverCountry,
+        country: {
+          id: shipping.receiverProvinces.country.uuid,
+          name: shipping.receiverProvinces.country.name,
+        },
+        province: {
+          id: shipping.receiverProvinces.uuid,
+          name: shipping.receiverProvinces.name,
+        },
         postalCode: shipping.receiverPostalCode,
       },
     }

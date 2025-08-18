@@ -6,7 +6,8 @@ export default class extends BaseSchema {
 
   async up() {
     this.schema.createTable(this.tableName, (table) => {
-      table.string('id').primary()
+      table.increments('id')
+      table.uuid('uuid').notNullable().index()
       table.enum('brand', Object.values(Brand)).defaultTo(Brand.NONE).notNullable()
       table.integer('weight').notNullable()
       table.date('shipping_date').notNullable()
@@ -20,8 +21,14 @@ export default class extends BaseSchema {
       table.string('sender_email').nullable()
       table.text('sender_address').notNullable()
       table.string('sender_city').notNullable()
-      table.string('sender_province').notNullable()
-      table.string('sender_country').notNullable()
+      table
+        .integer('sender_province_id')
+        .unsigned()
+        .references('id')
+        .inTable('provinces')
+        .onDelete('SET NULL')
+        .onUpdate('CASCADE')
+        .nullable()
       table.string('sender_postal_code').notNullable()
 
       // Receiver details
@@ -31,8 +38,13 @@ export default class extends BaseSchema {
       table.string('receiver_email').nullable()
       table.text('receiver_address').notNullable()
       table.string('receiver_city').notNullable()
-      table.string('receiver_province').notNullable()
-      table.string('receiver_country').notNullable()
+      table
+        .integer('receiver_province_id')
+        .unsigned()
+        .references('id')
+        .inTable('provinces')
+        .onDelete('SET NULL')
+        .onUpdate('CASCADE')
       table.string('receiver_postal_code').notNullable()
 
       table.timestamp('created_at')
