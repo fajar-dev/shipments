@@ -16,7 +16,6 @@ export default class AdministrativeAreasController {
     const page = request.input('page', 1)
     const limit = request.input('limit', 10)
     const data = await this.administrativeAreaService.findAllCountry(query, page, limit)
-    // return data
     return Response.ok(
       response,
       await this.administrativeAreaSerialize.collection(data),
@@ -28,14 +27,12 @@ export default class AdministrativeAreasController {
     const query = request.input('q', '')
     const page = request.input('page', 1)
     const limit = request.input('limit', 10)
-    // return params.id
     const data = await this.administrativeAreaService.findAllProvinceByCountry(
       params.id,
       query,
       page,
       limit
     )
-    // return data
     return Response.ok(
       response,
       await this.administrativeAreaSerialize.collection(data),
