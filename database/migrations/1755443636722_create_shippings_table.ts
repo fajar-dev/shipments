@@ -9,9 +9,9 @@ export default class extends BaseSchema {
       table.increments('id')
       table.uuid('uuid').notNullable().index()
       table.enum('brand', Object.values(Brand)).defaultTo(Brand.NONE).notNullable()
-      table.integer('weight').notNullable()
+      table.integer('weight').nullable()
       table.date('shipping_date').notNullable()
-      table.string('track_number').notNullable()
+      table.string('track_number').nullable()
       table.text('shipping_note').nullable()
 
       // Sender details

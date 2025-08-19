@@ -5,9 +5,9 @@ import { provinceBelongsToCountryRule } from '#validatorsRules/province_belongst
 export const labelStore = vine.compile(
   vine.object({
     brand: vine.enum(Object.values(Brand)),
-    weight: vine.number(),
+    weight: vine.number().optional(),
     shippingDate: vine.date(),
-    trackNumber: vine.string(),
+    trackNumber: vine.string().optional(),
     shippingNote: vine.string().nullable().optional(),
 
     senderFirstName: vine.string(),
@@ -16,13 +16,17 @@ export const labelStore = vine.compile(
     senderEmail: vine.string().nullable().optional(),
     senderAddress: vine.string(),
     senderCity: vine.string(),
-    senderCountryUuid: vine.string().exists({
-      table: 'countries',
-      column: 'uuid',
-    }),
+    senderCountryUuid: vine
+      .string()
+      .exists({
+        table: 'countries',
+        column: 'uuid',
+      })
+      .optional(),
     senderProvinceUuid: vine
       .string()
       .exists({ table: 'provinces', column: 'uuid' })
+      .optional()
       .use(
         provinceBelongsToCountryRule({
           provinceUuid: 'senderProvinceUuid',
@@ -37,13 +41,17 @@ export const labelStore = vine.compile(
     receiverEmail: vine.string().nullable().optional(),
     receiverAddress: vine.string(),
     receiverCity: vine.string(),
-    receiverCountryUuid: vine.string().exists({
-      table: 'countries',
-      column: 'uuid',
-    }),
+    receiverCountryUuid: vine
+      .string()
+      .exists({
+        table: 'countries',
+        column: 'uuid',
+      })
+      .optional(),
     receiverProvinceUuid: vine
       .string()
       .exists({ table: 'provinces', column: 'uuid' })
+      .optional()
       .use(
         provinceBelongsToCountryRule({
           provinceUuid: 'receiverProvinceUuid',

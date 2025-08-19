@@ -8,7 +8,7 @@ export default class PdfGenerate {
    * @param view AdonisJS view instance
    * @returns PDF buffer
    */
-  static async pdfLabel(data: any, logo: string, barcode: string, view: any) {
+  static async pdfLabel(data: any, logo: string, barcode: string | null, view: any) {
     const html = await view.render('label', { data, barcode, logo })
 
     const browser = await chromium.launch()

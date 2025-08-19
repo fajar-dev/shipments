@@ -47,8 +47,8 @@ export class ShippingService {
    */
   async store(
     payload: any,
-    senderProvinceId: number,
-    receiverProvinceId: number
+    senderProvinceId: number | null,
+    receiverProvinceId: number | null
   ): Promise<Shipping> {
     const label = new Shipping()
     label.brand = payload.brand

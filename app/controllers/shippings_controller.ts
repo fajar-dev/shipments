@@ -30,20 +30,25 @@ export default class ShippingsController {
     )
   }
 
-  async store({ request, response }: HttpContext) {
+  public async store({ request, response }: HttpContext) {
     const payload = await request.validateUsing(labelStore)
-    const senderProvinceId = await this.administrativeAreaService.findOneProvince(
-      payload.senderProvinceUuid
-    )
-    const receiverProvinceId = await this.administrativeAreaService.findOneProvince(
-      payload.receiverProvinceUuid
-    )
+
+    const senderProvince = payload.senderProvinceUuid
+      ? await this.administrativeAreaService.findOneProvince(payload.senderProvinceUuid)
+      : null
+
+    const receiverProvince = payload.receiverProvinceUuid
+      ? await this.administrativeAreaService.findOneProvince(payload.receiverProvinceUuid)
+      : null
+
     const result = await this.shippingService.store(
       payload,
-      senderProvinceId.id,
-      receiverProvinceId.id
+      senderProvince?.id ?? null,
+      receiverProvince?.id ?? null
     )
+
     const data = await this.shippingService.findOne(result.uuid)
+
     return Response.created(
       response,
       await this.shippingSerialize.single(data),
@@ -53,12 +58,22 @@ export default class ShippingsController {
 
   public async label({ view, response, params }: HttpContext) {
     const data = await this.shippingService.findOne(params.id)
-    const barcodeBase64 = await BarcodeGenerate.generateBase64(data.trackNumber)
+
+    const barcodeBase64 = data.trackNumber
+      ? await BarcodeGenerate.generateBase64(data.trackNumber)
+      : null
+
     const brand = data.brand as Brand
-    const logo = BrandLogos[brand] || ''
-    const pdf = await PdfGenerate.pdfLabel(data, logo, barcodeBase64, view)
+    const logo = BrandLogos[brand] ?? ''
+
+    const pdf = await PdfGenerate.pdfLabel(data, logo, barcodeBase64 ?? null, view)
+
     response.header('Content-Type', 'application/pdf')
-    response.header('Content-Disposition', `attachment; filename="${data.trackNumber}.pdf"`)
+    response.header(
+      'Content-Disposition',
+      `attachment; filename="${data.trackNumber ?? 'label'}.pdf"`
+    )
+
     return response.send(pdf)
   }
 }

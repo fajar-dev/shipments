@@ -123,11 +123,21 @@
         <div class="box-block">
           <div class="address-title">Kepada:</div>
           <div class="address-details">
-            <div class="primary-text">{{ data.receiverFirstName }} {{ data.receiverLastName ?? '' }}</div>
-            <div class="secondary-text">{{ data.receiverAddress }}, {{ data.receiverCity }}</div>
-            <div class="secondary-text">{{ data.receiverProvinces.name ?? '' }}, {{ data.receiverProvinces.country.name ?? '' }}, {{ data.receiverPostalCode }}</div>
+            <div class="primary-text">
+              {{ [data.receiverFirstName, data.receiverLastName].filter(Boolean).join(' ') }}
+            </div>
+            <div class="secondary-text">
+              {{ [data.receiverAddress, data.receiverCity].filter(Boolean).join(', ') }}
+            </div>
+            <div class="secondary-text">
+              {{
+                [data.receiverProvinces?.name, data.receiverProvinces?.country?.name, data.receiverPostalCode]
+                  .filter(Boolean)
+                  .join(', ')
+              }}
+            </div>
             <div class="secondary-text">{{ data.receiverEmail ?? '' }}</div>
-            <div class="secondary-text">{{ data.receiverPhone }}</div>
+            <div class="secondary-text">{{ data.receiverPhone ?? '' }}</div>
           </div>
         </div>
 
@@ -135,11 +145,21 @@
         <div class="box-block">
           <div class="address-title">Dari:</div>
           <div class="address-details">
-            <div class="primary-text">{{ data.senderFirstName }} {{ data.senderLastName ?? '' }}</div>
-            <div class="secondary-text">{{ data.senderAddress }}, {{ data.senderCity }}</div>
-            <div class="secondary-text">{{ data.senderProvinces.name ?? '' }}, {{ data.senderProvinces.country.name ?? '' }}, {{ data.senderPostalCode }}</div>
+            <div class="primary-text">
+              {{ [data.senderFirstName, data.senderLastName].filter(Boolean).join(' ') }}
+            </div>
+            <div class="secondary-text">
+              {{ [data.senderAddress, data.senderCity].filter(Boolean).join(', ') }}
+            </div>
+            <div class="secondary-text">
+              {{
+                [data.senderProvinces?.name, data.senderProvinces?.country?.name, data.senderPostalCode]
+                  .filter(Boolean)
+                  .join(', ')
+              }}
+            </div>
             <div class="secondary-text">{{ data.senderEmail ?? '' }}</div>
-            <div class="secondary-text">{{ data.senderPhone }}</div>
+            <div class="secondary-text">{{ data.senderPhone ?? '' }}</div>
           </div>
         </div>
 
@@ -147,7 +167,7 @@
         <div class="box-block">
           <div class="info-item">
             <div class="info-label">Berat</div>
-            <div class="info-value">{{ data.weight }} kg</div>
+            <div class="info-value">{{ data.weight ?? '-' }} kg</div>
           </div>
           <div class="info-item">
             <div class="info-label">Tanggal Kirim</div>
@@ -155,9 +175,11 @@
           </div>
           <div class="info-item">
             <div class="info-label">No. Resi</div>
-            <div class="info-value">{{ data.trackNumber }}</div>
+            <div class="info-value">{{ data.trackNumber ?? '-' }}</div>
           </div>
-          <img src="data:image/png;base64,{{ barcode }}" width="366px" alt="Barcode">
+          @if ( barcode )   
+            <img src="data:image/png;base64,{{ barcode }}" width="366px" alt="Barcode">
+          @end
         </div>
 
         <!-- Box 4: Catatan -->

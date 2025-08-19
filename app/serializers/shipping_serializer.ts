@@ -4,9 +4,9 @@ import { ModelPaginatorContract } from '@adonisjs/lucid/types/model'
 interface ShippingResponseInterface {
   id: string
   brand: string
-  weight: number
+  weight: number | null
   shippingDate: Date
-  trackNumber: string
+  trackNumber: string | null
   shippingNote: string | null
 
   sender: {
@@ -15,8 +15,8 @@ interface ShippingResponseInterface {
     email: string | null
     address: string
     city: string
-    province: any
-    country: any
+    province: any | null
+    country: any | null
     postalCode: string
   }
 
@@ -26,8 +26,8 @@ interface ShippingResponseInterface {
     email: string | null
     address: string
     city: string
-    province: any
-    country: any
+    province: any | null
+    country: any | null
     postalCode: string
   }
 }
@@ -65,14 +65,18 @@ export default class ShippingSerialize {
         email: shipping.senderEmail,
         address: shipping.senderAddress,
         city: shipping.senderCity,
-        country: {
-          id: shipping.senderProvinces.country.uuid,
-          name: shipping.senderProvinces.country.name,
-        },
-        province: {
-          id: shipping.senderProvinces.uuid,
-          name: shipping.senderProvinces.name,
-        },
+        country: shipping.senderProvinces?.country
+          ? {
+              id: shipping.senderProvinces.country.uuid,
+              name: shipping.senderProvinces.country.name,
+            }
+          : null,
+        province: shipping.senderProvinces
+          ? {
+              id: shipping.senderProvinces.uuid,
+              name: shipping.senderProvinces.name,
+            }
+          : null,
         postalCode: shipping.senderPostalCode,
       },
 
@@ -82,14 +86,18 @@ export default class ShippingSerialize {
         email: shipping.receiverEmail,
         address: shipping.receiverAddress,
         city: shipping.receiverCity,
-        country: {
-          id: shipping.receiverProvinces.country.uuid,
-          name: shipping.receiverProvinces.country.name,
-        },
-        province: {
-          id: shipping.receiverProvinces.uuid,
-          name: shipping.receiverProvinces.name,
-        },
+        country: shipping.receiverProvinces?.country
+          ? {
+              id: shipping.receiverProvinces.country.uuid,
+              name: shipping.receiverProvinces.country.name,
+            }
+          : null,
+        province: shipping.receiverProvinces
+          ? {
+              id: shipping.receiverProvinces.uuid,
+              name: shipping.receiverProvinces.name,
+            }
+          : null,
         postalCode: shipping.receiverPostalCode,
       },
     }
