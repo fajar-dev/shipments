@@ -17,7 +17,7 @@ interface ShippingResponseInterface {
     city: string
     province: any | null
     country: any | null
-    postalCode: string
+    postalCode: number
   }
 
   receiver: {
@@ -28,7 +28,7 @@ interface ShippingResponseInterface {
     city: string
     province: any | null
     country: any | null
-    postalCode: string
+    postalCode: number
   }
 }
 

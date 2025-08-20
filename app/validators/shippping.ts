@@ -33,7 +33,7 @@ export const labelStore = vine.compile(
           countryUuidField: 'senderCountryUuid',
         })
       ),
-    senderPostalCode: vine.string(),
+    senderPostalCode: vine.number(),
 
     receiverFirstName: vine.string(),
     receiverLastName: vine.string().nullable().optional(),
@@ -58,6 +58,6 @@ export const labelStore = vine.compile(
           countryUuidField: 'receiverCountryUuid',
         })
       ),
-    receiverPostalCode: vine.string(),
+    receiverPostalCode: vine.number(),
   })
 )

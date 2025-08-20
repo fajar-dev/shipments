@@ -55,7 +55,7 @@ export default class Shipping extends BaseModel {
   declare senderProvinceId: number | null
 
   @column()
-  declare senderPostalCode: string
+  declare senderPostalCode: number
 
   // Receiver details
   @column()
@@ -80,7 +80,7 @@ export default class Shipping extends BaseModel {
   declare receiverProvinceId: number | null
 
   @column()
-  declare receiverPostalCode: string
+  declare receiverPostalCode: number
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime

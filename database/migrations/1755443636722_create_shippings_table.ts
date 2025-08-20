@@ -29,7 +29,7 @@ export default class extends BaseSchema {
         .onDelete('SET NULL')
         .onUpdate('CASCADE')
         .nullable()
-      table.string('sender_postal_code').notNullable()
+      table.integer('sender_postal_code').notNullable()
 
       // Receiver details
       table.string('receiver_first_name').notNullable()
@@ -45,7 +45,7 @@ export default class extends BaseSchema {
         .inTable('provinces')
         .onDelete('SET NULL')
         .onUpdate('CASCADE')
-      table.string('receiver_postal_code').notNullable()
+      table.integer('receiver_postal_code').notNullable()
 
       table.timestamp('created_at')
       table.timestamp('updated_at')
