@@ -21,15 +21,6 @@ export default class Shipping extends BaseModel {
   declare brand: Brand
 
   @column()
-  declare weight: number | null
-
-  @column()
-  declare shippingDate: Date
-
-  @column()
-  declare trackNumber: string | null
-
-  @column()
   declare shippingNote: string | null
 
   // Sender details
