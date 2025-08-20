@@ -56,7 +56,7 @@ export default class ShippingsController {
     )
   }
 
-  public async label({ view, response, params }: HttpContext) {
+  public async labelGenerate({ view, response, params }: HttpContext) {
     const data = await this.shippingService.findOne(params.id)
 
     const barcodeBase64 = data.trackNumber
@@ -72,6 +72,40 @@ export default class ShippingsController {
     response.header(
       'Content-Disposition',
       `attachment; filename="${data.trackNumber ?? 'label'}.pdf"`
+    )
+
+    return response.send(pdf)
+  }
+
+  public async labelPreview({ view, response, request }: HttpContext) {
+    const payload = await request.validateUsing(labelStore)
+    const barcodeBase64 = payload.trackNumber
+      ? await BarcodeGenerate.generateBase64(payload.trackNumber)
+      : null
+
+    const brand = payload.brand as Brand
+    const logo = BrandLogos[brand] ?? ''
+
+    const senderProvince = payload.senderProvinceUuid
+      ? await this.administrativeAreaService.findOneProvince(payload.senderProvinceUuid)
+      : null
+
+    const receiverProvince = payload.receiverProvinceUuid
+      ? await this.administrativeAreaService.findOneProvince(payload.receiverProvinceUuid)
+      : null
+
+    const mergedPayload = {
+      ...payload,
+      senderProvinces: senderProvince ? senderProvince.toJSON() : null,
+      receiverProvinces: receiverProvince ? receiverProvince.toJSON() : null,
+    }
+
+    const pdf = await PdfGenerate.pdfLabel(mergedPayload, logo, barcodeBase64 ?? null, view)
+
+    response.header('Content-Type', 'application/pdf')
+    response.header(
+      'Content-Disposition',
+      `inline; filename="${payload.trackNumber ?? 'label'}.pdf"`
     )
 
     return response.send(pdf)

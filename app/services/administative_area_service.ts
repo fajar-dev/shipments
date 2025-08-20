@@ -54,6 +54,6 @@ export class AdministativeAreaService {
    * @returns Province data
    */
   async findOneProvince(uuid: string): Promise<Province> {
-    return await Province.findByOrFail('uuid', uuid)
+    return await Province.query().where('uuid', uuid).preload('country').firstOrFail()
   }
 }
