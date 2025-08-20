@@ -4,9 +4,6 @@ import { ModelPaginatorContract } from '@adonisjs/lucid/types/model'
 interface ShippingResponseInterface {
   id: string
   brand: string
-  weight: number | null
-  shippingDate: Date
-  trackNumber: string | null
   shippingNote: string | null
 
   sender: {
@@ -54,9 +51,6 @@ export default class ShippingSerialize {
     return {
       id: shipping.uuid,
       brand: shipping.brand,
-      weight: shipping.weight,
-      shippingDate: shipping.shippingDate,
-      trackNumber: shipping.trackNumber,
       shippingNote: shipping.shippingNote,
 
       sender: {

@@ -35,31 +35,36 @@
       text-align: center;
       font-size: 32px;
     }
-    /* Grid Layout untuk semua box */
+    /* Grid Layout */
     .grid {
       flex: 1;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      grid-template-rows: 1fr 1fr;
+      grid-auto-rows: minmax(auto, 1fr);
     }
+    /* Default border */
     .box-block {
       padding: 24px 32px;
       display: flex;
       flex-direction: column;
       gap: 16px;
       box-sizing: border-box;
+      border: 4px solid black;
+      border-width: 0 4px 4px 0; /* kanan + bawah aktif */
     }
-    /* Border sesuai posisi */
-    .box-block:nth-child(1) {
-      border-right: 4px solid black;
-      border-bottom: 4px solid black;
+
+    /* Box kanan (Dari) hilang border kanan aja */
+    .box-block:nth-child(2n) {
+      border-right: 0;
     }
-    .box-block:nth-child(2) {
-      border-bottom: 4px solid black;
+
+    /* Catatan full width */
+    .note {
+      grid-column: span 2; /* Catatan selalu full width */
+      border-right: 0;
+      border-bottom: 0;
     }
-    .box-block:nth-child(3) {
-      border-right: 4px solid black;
-    }
+
     /* Typography */
     .address-title {
       font-size: 24px;
@@ -77,11 +82,6 @@
       display: flex;
       flex-direction: column;
       gap: 8px;
-    }
-    .info-item {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
     }
     .info-label {
       font-size: 20px;
@@ -101,6 +101,11 @@
       text-align: justify;
       line-height: 133%;
     }
+    .note {
+      grid-column: span 2; /* Catatan selalu full width */
+      border-right: 0;
+      border-bottom: 0;
+    }
   </style>
 </head>
 <body>
@@ -117,7 +122,7 @@
         @end
       </div>
 
-      <!-- Grid 4 kotak -->
+      <!-- Grid -->
       <div class="grid">
         <!-- Box 1: Kepada -->
         <div class="box-block">
@@ -163,32 +168,15 @@
           </div>
         </div>
 
-        <!-- Box 3: Info Pengiriman -->
-        <div class="box-block">
-          <div class="info-item">
-            <div class="info-label">Berat</div>
-            <div class="info-value">{{ data.weight ?? '-' }} kg</div>
+        <!-- Box 3 (opsional): Catatan -->
+        @if (data.shippingNote)
+          <div class="box-block note">
+            <div class="note-title">Catatan Pengiriman</div>
+            <div class="note-text">
+              {{ data.shippingNote }}
+            </div>
           </div>
-          <div class="info-item">
-            <div class="info-label">Tanggal Kirim</div>
-            <div class="info-value">{{ formatDateId(data.shippingDate) }}</div>
-          </div>
-          <div class="info-item">
-            <div class="info-label">No. Resi</div>
-            <div class="info-value">{{ data.trackNumber ?? '-' }}</div>
-          </div>
-          @if ( barcode )   
-            <img src="data:image/png;base64,{{ barcode }}" width="366px" alt="Barcode">
-          @end
-        </div>
-
-        <!-- Box 4: Catatan -->
-        <div class="box-block">
-          <div class="note-title">Catatan Pengiriman</div>
-          <div class="note-text">
-            {{ data.shippingNote ?? '-' }}
-          </div>
-        </div>
+        @end
       </div>
     </div>
   </div>

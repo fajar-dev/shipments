@@ -15,7 +15,7 @@ export class ShippingService {
     limit: number
   ): Promise<ModelPaginatorContract<Shipping>> {
     return await Shipping.query()
-      .whereILike('track_number', `%${query}%`)
+      .whereILike('receiver_first_name', `%${query}%`)
       .preload('senderProvinces', (q) => {
         q.preload('country')
       })
@@ -52,10 +52,6 @@ export class ShippingService {
   ): Promise<Shipping> {
     const label = new Shipping()
     label.brand = payload.brand
-    label.weight = payload.weight
-    label.shippingDate = payload.shippingDate
-    label.trackNumber = payload.trackNumber
-    label.shippingDate = payload.shippingDate
     label.shippingNote = payload.shippingNote
     label.senderFirstName = payload.senderFirstName
     label.senderLastName = payload.senderLastName

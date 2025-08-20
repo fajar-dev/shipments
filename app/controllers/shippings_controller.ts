@@ -5,7 +5,6 @@ import { ShippingService } from '#services/shipping_service'
 import ShippingSerialize from '#serializers/shipping_serializer'
 import { labelStore } from '#validators/shippping'
 import PdfGenerate from '#helpers/pdf_generate'
-import BarcodeGenerate from '#helpers/barcode_generate'
 import { Brand } from '#enums/brand'
 import { BrandLogos } from '#utils/brand_logo'
 import { AdministativeAreaService } from '#services/administative_area_service'
@@ -59,29 +58,19 @@ export default class ShippingsController {
   public async labelGenerate({ view, response, params }: HttpContext) {
     const data = await this.shippingService.findOne(params.id)
 
-    const barcodeBase64 = data.trackNumber
-      ? await BarcodeGenerate.generateBase64(data.trackNumber)
-      : null
-
     const brand = data.brand as Brand
     const logo = BrandLogos[brand] ?? ''
 
-    const pdf = await PdfGenerate.pdfLabel(data, logo, barcodeBase64 ?? null, view)
+    const pdf = await PdfGenerate.pdfLabel(data, logo, view)
 
     response.header('Content-Type', 'application/pdf')
-    response.header(
-      'Content-Disposition',
-      `attachment; filename="${data.trackNumber ?? 'label'}.pdf"`
-    )
+    response.header('Content-Disposition', `attachment; filename="${params.id}.pdf"`)
 
     return response.send(pdf)
   }
 
   public async labelPreview({ view, response, request }: HttpContext) {
     const payload = await request.validateUsing(labelStore)
-    const barcodeBase64 = payload.trackNumber
-      ? await BarcodeGenerate.generateBase64(payload.trackNumber)
-      : null
 
     const brand = payload.brand as Brand
     const logo = BrandLogos[brand] ?? ''
@@ -100,13 +89,10 @@ export default class ShippingsController {
       receiverProvinces: receiverProvince ? receiverProvince.toJSON() : null,
     }
 
-    const pdf = await PdfGenerate.pdfLabel(mergedPayload, logo, barcodeBase64 ?? null, view)
+    const pdf = await PdfGenerate.pdfLabel(mergedPayload, logo, view)
 
     response.header('Content-Type', 'application/pdf')
-    response.header(
-      'Content-Disposition',
-      `inline; filename="${payload.trackNumber ?? 'label'}.pdf"`
-    )
+    response.header('Content-Disposition', `inline; filename="lebel-preview.pdf"`)
 
     return response.send(pdf)
   }
