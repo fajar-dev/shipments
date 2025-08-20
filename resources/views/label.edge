@@ -57,9 +57,6 @@
     .box-block:nth-child(2) {
       border-bottom: 4px solid black;
     }
-    .box-block:nth-child(3) {
-      border-right: 4px solid black;
-    }
     /* Typography */
     .address-title {
       font-size: 24px;
@@ -163,24 +160,6 @@
           </div>
         </div>
 
-        <!-- Box 3: Info Pengiriman -->
-        <div class="box-block">
-          <div class="info-item">
-            <div class="info-label">Berat</div>
-            <div class="info-value">{{ data.weight ?? '-' }} kg</div>
-          </div>
-          <div class="info-item">
-            <div class="info-label">Tanggal Kirim</div>
-            <div class="info-value">{{ formatDateId(data.shippingDate) }}</div>
-          </div>
-          <div class="info-item">
-            <div class="info-label">No. Resi</div>
-            <div class="info-value">{{ data.trackNumber ?? '-' }}</div>
-          </div>
-          @if ( barcode )   
-            <img src="data:image/png;base64,{{ barcode }}" width="366px" alt="Barcode">
-          @end
-        </div>
 
         <!-- Box 4: Catatan -->
         <div class="box-block">

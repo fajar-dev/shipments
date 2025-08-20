@@ -5,9 +5,6 @@ import { provinceBelongsToCountryRule } from '#validatorsRules/province_belongst
 export const labelStore = vine.compile(
   vine.object({
     brand: vine.enum(Object.values(Brand)),
-    weight: vine.number().optional(),
-    shippingDate: vine.date(),
-    trackNumber: vine.string().optional(),
     shippingNote: vine.string().nullable().optional(),
 
     senderFirstName: vine.string(),
