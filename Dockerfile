@@ -1,5 +1,4 @@
-# Base stage
-FROM node:20.12.2-alpine3.18 AS base
+FROM node:24.5.0-alpine3.22 AS base
 WORKDIR /app
 
 # Install dependencies stage
@@ -12,7 +11,7 @@ RUN npm ci
 FROM base AS production-deps
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN npm ci --omit=dev
+RUN npm ci
 
 # Build stage
 FROM base AS build
