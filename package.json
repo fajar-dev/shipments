@@ -62,6 +62,7 @@
     "@adonisjs/cors": "^2.2.1",
     "@adonisjs/lucid": "^21.6.1",
     "@vinejs/vine": "^3.0.1",
+    "bwip-js": "^4.7.0",
     "edge.js": "^6.3.0",
     "luxon": "^3.7.1",
     "mysql2": "^3.14.3",
